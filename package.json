@@ -2,9 +2,10 @@
   "name": "dw_sample",
   "version": "0.1.0",
   "description": "sample proj",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "tape ./tests/test.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,11 @@
   },
   "homepage": "https://github.com/karlpokus/dw_sample#readme",
   "dependencies": {
-    "csv-parse": "^1.2.0"
+    "csv-parse": "^1.2.0",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.6.3"
   }
 }

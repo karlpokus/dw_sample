@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <input id="files" type="file" multiple/>
+  <p id="client-feedback"></p>
+
+  <script>
+    var files = document.getElementById('files');
+    files.addEventListener('change', processFiles, false);
+
+    function feedback(str) {
+      //var feedback = document.getElementById('client-feedback');
+      //feedback.innerHTML = str;
+      console.log(str);
+    }
+
+    function processFiles() {
+      readFiles(this.files, upload);
+    }
+
+    function readFiles(files, cb) {
+      var payloads = [];
+      for (var i = 0; i < files.length; i++) {
+        feedback('processing file ' + i);
+
+        (function(file) {
+          var reader = new FileReader();
+
+          reader.onload = function(evt) {
+            var payload = {
+              name: file.name,
+              file: evt.target.result,
+              ts: Date.now()
+            };
+            payloads.push(payload);
+
+            if (payloads.length === files.length) {
+              cb(payloads);
+            }
+          };
+
+          reader.readAsText(file);
+        })(files[i]);
+      }
+    }
+
+    function upload(payloads) {
+      var http = new XMLHttpRequest();
+
+      http.open('POST', '/data');
+      http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+          feedback(http.responseText);
+        }
+      }
+
+      http.send(JSON.stringify(payloads));
+    }
+  </script>
+</body>
+</html>
