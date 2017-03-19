@@ -15,22 +15,21 @@ var server = app.listen(port, function(){
 test.onFinish(server.close.bind(server));
 
 test('simple upload', function(t){
-
-  var payload = JSON.stringify({
-    name: 'csv1.csv',
-    file: fs.readFileSync(path.resolve(__dirname, 'csv1.csv'), 'utf8')
-  });
+  var fileName = 'dummy_sample.csv',
+      payloads = JSON.stringify([{
+        name: fileName,
+        file: fs.readFileSync(path.resolve(__dirname, fileName), 'utf8')
+      }]);
 
   var opts = {
     url: 'http://localhost:3000/data',
     method: 'POST',
-    body: payload
-    //json: true
+    body: payloads
   };
 
   req(opts, function(err, res){
     t.error(err);
-    t.equal(res.body, 'thanks');
+    t.equal(res.body, 'done');
     t.end();
   });
 

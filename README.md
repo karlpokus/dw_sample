@@ -9,8 +9,10 @@ $ npm test
 
 # Requirements
 - [ ] documentation
-- [ ] app setup and configs
-- [ ] db setup and configs
+- [x] app setup
+- [x] app configs
+- [x] db configs
+- [ ] db setup
 
 ### client
 - [x] upload multiple files w name, file, ts
@@ -18,5 +20,9 @@ $ npm test
 
 ### server
 - [x] bodyparser
-- [x] save file(s)
-- [ ] csv parsing
+- [x] save files
+- [ ] process files
+
+### setup
+- config.json **required** setup for folders, db credentials
+- we're assuming the db is setup

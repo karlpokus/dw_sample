@@ -27,12 +27,11 @@
           var reader = new FileReader();
 
           reader.onload = function(evt) {
-            var payload = {
+            payloads.push({
               name: file.name,
               file: evt.target.result,
               ts: Date.now()
-            };
-            payloads.push(payload);
+            });
 
             if (payloads.length === files.length) {
               cb(payloads);

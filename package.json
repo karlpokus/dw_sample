@@ -19,7 +19,8 @@
   "homepage": "https://github.com/karlpokus/dw_sample#readme",
   "dependencies": {
     "csv-parse": "^1.2.0",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "mysql": "^2.13.0"
   },
   "devDependencies": {
     "request": "^2.81.0",
