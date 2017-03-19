@@ -14,17 +14,22 @@ var server = app.listen(port, function(){
 // end
 test.onFinish(server.close.bind(server));
 
-test('simple upload', function(t){
-  var fileName = 'dummy_sample.csv',
-      payloads = JSON.stringify([{
-        name: fileName,
-        file: fs.readFileSync(path.resolve(__dirname, fileName), 'utf8')
-      }]);
+// helper
+function readFiles(files) {
+  return JSON.stringify(
+    files.map(function(file){
+      return {
+        name: file,
+        file: fs.readFileSync(path.resolve(__dirname, file), 'utf8')
+      }
+    }));
+}
 
+test('upload multiple files', function(t){
   var opts = {
     url: 'http://localhost:3000/data',
     method: 'POST',
-    body: payloads
+    body: readFiles(['dummy_samples.csv', 'dummy_cats.csv'])
   };
 
   req(opts, function(err, res){
@@ -32,5 +37,4 @@ test('simple upload', function(t){
     t.equal(res.body, 'done');
     t.end();
   });
-
 });

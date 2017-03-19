@@ -8,6 +8,9 @@ var express = require('express'),
       console.error(err.message || err);
       res.status(500).end();
       // 500 to client, log err on server
+    },
+    tempFinalHandler = function(req, res){
+      res.status(200).send('done');
     };
 
 setConfig(function(err, configs){
@@ -17,9 +20,7 @@ setConfig(function(err, configs){
 
 app.use(express.static('public'));
 
-app.post('/data', [bodyparser, saveFiles, function(req, res){ // processFiles
-  res.status(200).send('done');
-}]);
+app.post('/data', [bodyparser, saveFiles, processFiles, tempFinalHandler]);
 
 app.use(errorHandler);
 
