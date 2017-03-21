@@ -24,5 +24,7 @@ $ npm test
 - [ ] process files
 
 ### setup
+- `npm i`
+- `mkdir folders`
 - config.json **required** setup for folders, db credentials
 - we're assuming the db is setup

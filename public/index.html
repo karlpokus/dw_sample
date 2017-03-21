@@ -14,39 +14,42 @@
       console.log(str);
     }
 
-    function processFiles() {
-      readFiles(this.files, upload);
-    }
-
-    function readFiles(files, cb) {
-      var payloads = [];
+    function processFiles() { 
+      var files = this.files,
+          fileList = [];
+    
       for (var i = 0; i < files.length; i++) {
-        feedback('processing file ' + i);
-
-        (function(file) {
-          var reader = new FileReader();
-
-          reader.onload = function(evt) {
-            payloads.push({
-              name: file.name,
-              file: evt.target.result,
-              ts: Date.now()
-            });
-
-            if (payloads.length === files.length) {
-              cb(payloads);
-            }
-          };
-
-          reader.readAsText(file);
-        })(files[i]);
+        fileList.push(readFile(files[i]));
       }
+      
+      Promise
+        .all(fileList)
+        .then(upload)
+        .catch(console.error);
+    }
+    
+    function readFile(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+          resolve({
+            name: file.name,
+            ts: Date.now(),
+            file: e.target.result
+          });
+        };
+        reader.onerror = function(err) {
+          reject(err);
+        }
+        reader.readAsText(file);
+      }); 
     }
 
     function upload(payloads) {
       var http = new XMLHttpRequest();
 
-      http.open('POST', '/data');
+      http.open('POST', '/test');
       http.onreadystatechange = function() {
         if (http.readyState == 4 && http.status == 200) {
           feedback(http.responseText);
